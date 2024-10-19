@@ -4,9 +4,11 @@ SCRIPT_PATH="$(readlink -f "$0")"
 SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
 XML_FILE="/tmp/debian-vm-base.xml"
 
+LATEST_IMAGE=$(lynx -dump -listonly -nonumbers https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/ | grep netinst | head -n 1)
+
 ship --vm delete debian-vm-base 
 
-echo n | ship --vm create debian-vm-base --source https://cdimage.debian.org/images/cloud/bookworm/latest/debian-12-nocloud-amd64.qcow2
+echo n | ship --vm create debian-vm-base --source "$LATEST_IMAGE"
 
 sed -i '/<\/devices>/i \
   <console type="pty">\
@@ -23,4 +25,5 @@ ship --vm start debian-vm-base
 
 ./setup.sh
 ./view_vm.sh
+./release.sh
 
