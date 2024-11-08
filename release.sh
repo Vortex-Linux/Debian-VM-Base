@@ -14,5 +14,8 @@ DISK_IMAGE=$(sudo virsh domblklist debian-vm-base | grep .qcow2 | awk '{print $2
 
 cp "$DISK_IMAGE" output/debian.qcow2
 
-echo "The release package for 'debian-vm-base' has been generated successfully!"
+echo "Splitting the copied disk image into two parts..."
 
+split -b $(( $(stat -c%s "output/debian.qcow2") / 2 )) -d -a 3 "output/debian.qcow2" "output/debian.qcow2."
+
+echo "The release package for 'debian-vm-base' has been generated and split successfully!"
