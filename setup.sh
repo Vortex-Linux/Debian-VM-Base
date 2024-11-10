@@ -49,7 +49,7 @@ sleep 60
 apt update 
 apt install -y sudo debootstrap
 
-debootstrap --arch amd64 bookworm /mnt http://deb.debian.org/debian/
+debootstrap --arch amd64 stable /mnt http://deb.debian.org/debian/
 
 genfstab -U -p /mnt >> /mnt/etc/fstab  
 
