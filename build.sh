@@ -12,7 +12,7 @@ echo n | ship --vm create debian-vm-base --source "$LATEST_IMAGE"
 
 sed -i '/<\/devices>/i \
   <console type="pty">\
-    <target type="virtio"/>\
+    <target type="serial" port="0"/>\
   </console>' "$XML_FILE"
 
 virsh -c qemu:///system undefine debian-vm-base
@@ -21,7 +21,8 @@ virsh -c qemu:///system define "$XML_FILE"
 echo "Building of VM Complete.Starting might take a while as it might take a bit of type for the vm to boot up and be ready for usage."
 ship --vm start debian-vm-base 
 
-#./setup.sh
-./view_vm.sh
-#./release.sh
+./view_vm.sh "y" # Enable the serial console using "systemctl enable --now serial-getty@ttyS0.service"
+./setup.sh
+./view_vm.sh "n"
+./release.sh
 

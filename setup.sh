@@ -1,7 +1,8 @@
 #!/bin/bash
 
 INITIAL_COMMANDS=$(cat <<'EOF'
-root
+user 
+live
 exec bash
 EOF
 )
